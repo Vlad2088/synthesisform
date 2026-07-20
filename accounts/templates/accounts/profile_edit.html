@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Редактирование профиля — PrintFarm</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: #1a1d23;
+            color: #e1e4e8;
+            padding: 40px;
+        }
+        .container { max-width: 500px; margin: 0 auto; }
+        h1 { font-size: 1.5rem; margin-bottom: 24px; }
+        .form-card {
+            background: #21262d;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 20px;
+        }
+        .form-card label {
+            display: block;
+            margin-bottom: 6px;
+            color: #8b949e;
+        }
+        .form-card input {
+            width: 100%;
+            padding: 8px 12px;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            color: #e1e4e8;
+            margin-bottom: 16px;
+        }
+        .form-card button {
+            padding: 8px 24px;
+            background: #238636;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .form-card button:hover { background: #2ea043; }
+        .cancel-link {
+            display: inline-block;
+            margin-left: 12px;
+            color: #58a6ff;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .cancel-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Редактирование профиля</h1>
+        <form method="post" class="form-card">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Сохранить</button>
+            <a href="{% url 'profile' %}" class="cancel-link">Отмена</a>
+        </form>
+    </div>
+</body>
+</html>

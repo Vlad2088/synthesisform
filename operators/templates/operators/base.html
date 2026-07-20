@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru" style="color-scheme: dark;">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1a1d23">
+<title>{% block title %}Кабинет оператора{% endblock %} — PrintFarm</title>
+<link rel="stylesheet" href="{% static 'operators/css/operators.css' %}">
+{% block extra_head %}{% endblock %}
+</head>
+<body>
+  <nav class="nav">
+    <a href="{% url 'operators:operator_dashboard' %}"> Дашборд</a>
+    <a href="{% url 'operators:operator_orders' %}"> Заказы</a>
+    <a href="{% url 'operators:operator_printers' %}">️ Принтеры</a>
+    <a href="{% url 'operators:operator_materials' %}"> Склад</a>
+    <a href="{% url 'operators:operator_customers' %}"> Заказчики</a>
+    <a href="{% url 'operators:operator_history' %}"> История</a>
+    <span style="flex:1"></span>
+    <a href="{% url 'logout' %}"> Выйти</a>
+  </nav>
+
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

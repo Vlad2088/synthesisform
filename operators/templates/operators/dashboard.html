@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ru" style="color-scheme: dark;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#1a1d23">
+    <title>Дашборд оператора — PrintFarm</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #1a1d23;
+            color: #e6edf3;
+            min-height: 100vh;
+        }
+        .sidebar {
+            position: fixed; left: 0; top: 0; bottom: 0;
+            width: 220px;
+            background: #16181d;
+            padding: 24px 16px;
+            display: flex; flex-direction: column; gap: 4px;
+        }
+        .sidebar h2 {
+            color: #58a6ff;
+            font-size: 18px;
+            margin-bottom: 16px;
+            padding: 0 8px;
+        }
+        .sidebar a {
+            color: #8b949e;
+            text-decoration: none;
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color .15s, color .15s, background-color .15s;
+        }
+        .sidebar a:hover, .sidebar a.active {
+            color: #e6edf3;
+            background: #21262d;
+        }
+        .main {
+            margin-left: 220px;
+            padding: 32px 40px;
+        }
+        .main h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        .card {
+            background: #21262d;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 20px 24px;
+        }
+        .card .label {
+            font-size: 13px;
+            color: #8b949e;
+            margin-bottom: 6px;
+        }
+        .card .value {
+            font-size: 32px;
+            font-weight: 700;
+        }
+        .card.new .value { color: #58a6ff; }
+        .card.in_progress .value { color: #d2991d; }
+        .card.done .value { color: #3fb950; }
+        .card.idle .value { color: #3fb950; }
+        .card.printing .value { color: #58a6ff; }
+        .card.error .value { color: #f85149; }
+        .section {
+            margin-bottom: 32px;
+        }
+        .section h2 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #e6edf3;
+        }
+        .low-materials {
+            display: flex; flex-wrap: wrap; gap: 8px;
+        }
+        .low-material-badge {
+            background: #21262d;
+            border: 1px solid #f85149;
+            border-radius: 6px;
+            padding: 8px 14px;
+            font-size: 13px;
+            color: #f85149;
+        }
+        .no-data {
+            color: #8b949e;
+            font-size: 14px;
+            padding: 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <nav class="sidebar">
+        <h2>Synthesisform</h2>
+        <a href="{% url 'operators:operator_dashboard' %}" class="active"> Дашборд</a>
+        <a href="{% url 'operators:operator_orders' %}"> Заказы</a>
+        <a href="{% url 'operators:operator_printers' %}">️ Принтеры</a>
+        <a href="{% url 'operators:operator_materials' %}"> Склад</a>
+        <a href="{% url 'operators:operator_customers' %}"> Заказчики</a>
+        <a href="{% url 'operators:operator_history' %}"> История</a>
+        <hr style="border-color: #30363d; margin: 8px 0;">
+        <a href="{% url 'operators:operator_logout' %}" style="color: #f85149;"> Выйти</a>
+    </nav>
+
+    <div class="main">
+        <h1>Дашборд оператора</h1>
+
+        <!-- Карточки заказов -->
+        <div class="section">
+            <h2> Заказы</h2>
+            <div class="cards">
+                <div class="card new">
+                    <div class="label">Новые</div>
+                    <div class="value">{{ new_count }}</div>
+                </div>
+                <div class="card in_progress">
+                    <div class="label">В работе</div>
+                    <div class="value">{{ in_progress_count }}</div>
+                </div>
+                <div class="card done">
+                    <div class="label">Готовые</div>
+                    <div class="value">{{ done_count }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Карточки принтеров -->
+        <div class="section">
+            <h2>️ Состояние принтеров</h2>
+            <div class="cards">
+                <div class="card idle">
+                    <div class="label">Свободен</div>
+                    <div class="value">{{ idle_count }}</div>
+                </div>
+                <div class="card printing">
+                    <div class="label">Печатает</div>
+                    <div class="value">{{ printing_count }}</div>
+                </div>
+                <div class="card error">
+                    <div class="label">Ошибка</div>
+                    <div class="value">{{ error_count }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Критические остатки материалов -->
+        <div class="section">
+            <h2>⚠️ Критические остатки (&lt;200 г)</h2>
+            {% if low_materials %}
+                <div class="low-materials">
+                    {% for mat in low_materials %}
+                        <span class="low-material-badge">
+                            {{ mat.name }} — {{ mat.stock_grams }} г
+                        </span>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="no-data">Нет материалов с критическим остатком.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

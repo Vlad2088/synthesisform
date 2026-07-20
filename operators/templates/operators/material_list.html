@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Склад материалов — Кабинет оператора</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #1a1d23; color: #c9d1d9; min-height: 100vh; }
+  .nav { background: #21262d; padding: 12px 24px; border-bottom: 1px solid #30363d; display: flex; gap: 20px; align-items: center; }
+  .nav a { color: #58a6ff; text-decoration: none; font-size: 14px; }
+  .nav a:hover { text-decoration: underline; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px; }
+  h1 { font-size: 24px; margin-bottom: 20px; color: #f0f6fc; }
+  .filters { margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap; }
+  .filters a { padding: 6px 16px; border-radius: 6px; text-decoration: none; font-size: 14px; border: 1px solid #30363d; color: #c9d1d9; background: #21262d; transition: all .15s; }
+  .filters a:hover, .filters a.active { border-color: #58a6ff; color: #58a6ff; }
+  table { width: 100%; border-collapse: collapse; background: #21262d; border-radius: 8px; overflow: hidden; }
+  th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid #30363d; font-size: 14px; }
+  th { background: #161b22; color: #8b949e; font-weight: 600; }
+  tr:hover td { background: #292e36; }
+  tr a { color: #58a6ff; text-decoration: none; }
+  tr a:hover { text-decoration: underline; }
+  .low-stock { color: #f85149; font-weight: 600; }
+  .color-swatch { display: inline-block; width: 14px; height: 14px; border-radius: 3px; border: 1px solid #30363d; vertical-align: middle; margin-right: 6px; }
+</style>
+</head>
+<body>
+  <div class="nav">
+    <a href="{% url 'operators:operator_dashboard' %}"> Дашборд</a>
+    <a href="{% url 'operators:operator_orders' %}"> Заказы</a>
+    <a href="{% url 'operators:operator_printers' %}">️ Принтеры</a>
+    <a href="{% url 'operators:operator_materials' %}"> Склад</a>
+    <a href="{% url 'operators:operator_customers' %}"> Заказчики</a>
+    <a href="{% url 'operators:operator_history' %}"> История</a>
+    <span style="flex:1"></span>
+    <a href="{% url 'logout' %}"> Выйти</a>
+  </div>
+  <div class="container">
+    <h1> Склад материалов</h1>
+    {% if messages %}
+      <div style="margin-bottom: 16px;">
+        {% for msg in messages %}
+          <div style="padding: 10px 16px; border-radius: 6px; font-size: 14px; background: {% if msg.tags == 'error' %}#3d1f1f; color: #f85149; border: 1px solid #f8514944{% else %}#1a3d2f; color: #3fb950; border: 1px solid #3fb95044{% endif %};">{{ msg }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    <form method="POST" style="display:flex; gap:8px; margin-bottom: 20px; align-items: center; flex-wrap: wrap;">
+      {% csrf_token %}
+      <input type="text" name="name" placeholder="Название" required style="padding: 8px 12px; border-radius: 6px; border: 1px solid #30363d; background: #0d1117; color: #c9d1d9; font-size: 14px; width: 130px;">
+      <input type="text" name="manufacturer" placeholder="Производитель" style="padding: 8px 12px; border-radius: 6px; border: 1px solid #30363d; background: #0d1117; color: #c9d1d9; font-size: 14px; width: 140px;">
+      <input type="text" name="color" placeholder="Цвет" style="padding: 8px 12px; border-radius: 6px; border: 1px solid #30363d; background: #0d1117; color: #c9d1d9; font-size: 14px; width: 100px;">
+      <input type="number" step="0.1" name="stock_grams" placeholder="Остаток (г)" value="0" style="padding: 8px 12px; border-radius: 6px; border: 1px solid #30363d; background: #0d1117; color: #c9d1d9; font-size: 14px; width: 110px;">
+      <input type="number" step="0.0001" name="cost_per_gram" placeholder="Себест. (₽/г)" style="padding: 8px 12px; border-radius: 6px; border: 1px solid #30363d; background: #0d1117; color: #c9d1d9; font-size: 14px; width: 120px;">
+      <button type="submit" style="padding: 8px 16px; border-radius: 6px; border: 1px solid #238636; background: #238636; color: #fff; font-size: 13px; cursor: pointer; transition: all .15s;">➕ Добавить</button>
+    </form>
+    <div class="filters">
+      <a href="?" class="{% if not current_filter %}active{% endif %}">Все</a>
+      <a href="?low_stock=1" class="{% if current_filter == 'low_stock' %}active{% endif %}">⚠️ Заканчиваются</a>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Название</th>
+          <th>Производитель</th>
+          <th>Цвет</th>
+          <th>Остаток (г)</th>
+          <th>Себестоимость (₽/г)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for material in materials %}
+        <tr>
+          <td><a href="{% url 'operators:operator_material_detail' material.id %}">{{ material.name }}</a></td>
+          <td>{{ material.manufacturer|default:"—" }}</td>
+          <td>{{ material.color }}</td>
+          <td class="{% if material.stock_grams < 200 %}low-stock{% endif %}">
+            {% if material.stock_grams < 200 %}⚠️ {% endif %}{{ material.stock_grams }}
+          </td>
+          <td>{{ material.cost_per_gram|default:"—" }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5" style="text-align:center; color:#8b949e; padding:40px;">Материалов пока нет</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ material.name }} — Кабинет оператора</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #1a1d23; color: #c9d1d9; min-height: 100vh; }
+  .nav { background: #21262d; padding: 12px 24px; border-bottom: 1px solid #30363d; display: flex; gap: 20px; align-items: center; }
+  .nav a { color: #58a6ff; text-decoration: none; font-size: 14px; }
+  .nav a:hover { text-decoration: underline; }
+  .container { max-width: 600px; margin: 0 auto; padding: 24px; }
+  h1 { font-size: 24px; margin-bottom: 20px; color: #f0f6fc; }
+  .back-link { display: inline-block; margin-bottom: 16px; color: #58a6ff; font-size: 14px; text-decoration: none; }
+  .back-link:hover { text-decoration: underline; }
+  form { background: #21262d; border: 1px solid #30363d; border-radius: 8px; padding: 24px; }
+  form label { display: block; margin-bottom: 4px; color: #8b949e; font-size: 13px; }
+  form input { width: 100%; padding: 8px 12px; margin-bottom: 16px; background: #0d1117; border: 1px solid #30363d; border-radius: 6px; color: #c9d1d9; font-size: 14px; }
+  form input:focus { outline: none; border-color: #58a6ff; }
+  .btn { display: inline-block; padding: 8px 20px; border-radius: 6px; border: 1px solid #30363d; background: #238636; border-color: #238636; color: #fff; font-size: 14px; cursor: pointer; text-decoration: none; transition: all .15s; }
+  .btn:hover { background: #2ea043; border-color: #2ea043; }
+  .current { background: #161b22; border: 1px solid #30363d; border-radius: 6px; padding: 12px; margin-bottom: 20px; font-size: 14px; }
+  .current span { color: #8b949e; }
+</style>
+</head>
+<body>
+  <div class="nav">
+    <a href="{% url 'operators:operator_dashboard' %}"> Дашборд</a>
+    <a href="{% url 'operators:operator_orders' %}"> Заказы</a>
+    <a href="{% url 'operators:operator_printers' %}">️ Принтеры</a>
+    <a href="{% url 'operators:operator_materials' %}"> Склад</a>
+    <a href="{% url 'operators:operator_customers' %}"> Заказчики</a>
+    <a href="{% url 'operators:operator_history' %}"> История</a>
+    <span style="flex:1"></span>
+    <a href="{% url 'logout' %}"> Выйти</a>
+  </div>
+  <div class="container">
+    <a href="{% url 'operators:operator_materials' %}" class="back-link">← Назад к складу</a>
+    <h1>{{ material.name }}</h1>
+
+    {% if messages %}
+      <div style="margin-bottom: 16px;">
+        {% for msg in messages %}
+          <div style="padding: 10px 16px; border-radius: 6px; font-size: 14px; background: {% if msg.tags == 'error' %}#3d1f1f; color: #f85149; border: 1px solid #f8514944{% else %}#1a3d2f; color: #3fb950; border: 1px solid #3fb95044{% endif %};">{{ msg }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <div class="current">
+      <span>Производитель:</span> {{ material.manufacturer|default:"не указан" }}<br>
+      <span>Цвет:</span> {{ material.color|default:"не указан" }}<br>
+      <span>Диаметр:</span> {{ material.diameter }} мм<br>
+      <span>Текущий остаток:</span> {{ material.stock_grams }} г<br>
+      <span>Себестоимость:</span> {{ material.cost_per_gram }} ₽/г
+    </div>
+
+    <form method="post">
+      {% csrf_token %}
+      <label for="id_add">Пополнить остаток (граммы)</label>
+      <input type="number" step="0.1" name="add_grams" id="id_add" placeholder="Сколько граммов добавить?">
+      <label for="id_cost">Себестоимость (₽/г)</label>
+      <input type="number" step="0.01" name="cost_per_gram" id="id_cost" placeholder="Новая себестоимость за грамм" value="{{ material.cost_per_gram }}">
+      <button type="submit" class="btn"> Сохранить</button>
+    </form>
+  </div>
+</body>
+</html>

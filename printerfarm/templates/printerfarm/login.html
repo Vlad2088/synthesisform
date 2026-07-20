@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход — Synthesisform</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: #1a1a2e; color: #eee; min-height: 100vh; display: flex; justify-content: center; align-items: center; }
+        .login-box { background: #16213e; padding: 40px; border-radius: 12px; border: 1px solid #0f3460; width: 380px; max-width: 90vw; }
+        .login-box h1 { font-size: 24px; color: #e94560; margin-bottom: 8px; }
+        .login-box p { color: #888; margin-bottom: 28px; font-size: 14px; }
+        .login-box label { display: block; font-size: 13px; color: #aaa; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1px; }
+        .login-box input { width: 100%; padding: 12px; background: #0f3460; border: 1px solid #1a1a4e; border-radius: 8px; color: #eee; font-size: 15px; margin-bottom: 18px; outline: none; }
+        .login-box input:focus { border-color: #e94560; }
+        .login-box button { width: 100%; padding: 12px; background: #e94560; color: #fff; border: none; border-radius: 8px; font-size: 15px; cursor: pointer; font-weight: 600; }
+        .login-box button:hover { background: #c73e54; }
+        .error { background: #3b1111; color: #fca5a5; padding: 10px 14px; border-radius: 8px; margin-bottom: 18px; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <h1>Synthesisform</h1>
+        <p>Войдите для доступа к панели управления</p>
+
+        {% if form.errors %}
+        <div class="error">Неверный логин или пароль. Попробуйте снова.</div>
+        {% endif %}
+
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <label for="id_username">Логин</label>
+            {{ form.username }}
+
+            <label for="id_password">Пароль</label>
+            {{ form.password }}
+
+            <button type="submit">Войти</button>
+        </form>
+    </div>
+</body>
+</html>

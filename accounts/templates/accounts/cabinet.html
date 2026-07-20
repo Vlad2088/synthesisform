@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет — PrintFarm</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: #1a1d23;
+            color: #e1e4e8;
+            padding: 40px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 24px;
+        }
+        .info {
+            background: #21262d;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+        .info p {
+            margin-bottom: 8px;
+        }
+        .info strong {
+            color: #8b949e;
+        }
+        .logout-btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #da3633;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+        .logout-btn:hover { background: #c62828; }
+        .back-link {
+            display: inline-block;
+            margin-left: 12px;
+            color: #58a6ff;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .back-link:hover { text-decoration: underline; }
+        h2 {
+            margin-top: 32px;
+            margin-bottom: 16px;
+        }
+        .order-form {
+            background: #21262d;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+        .order-form label {
+            display: block;
+            margin-bottom: 6px;
+            color: #8b949e;
+        }
+        .order-form textarea {
+            width: 100%;
+            height: 80px;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            color: #e1e4e8;
+            padding: 8px;
+            margin-bottom: 12px;
+            resize: vertical;
+        }
+        .order-form button {
+            padding: 8px 24px;
+            background: #238636;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .order-form button:hover { background: #2ea043; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #21262d;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #30363d;
+        }
+        th {
+            background: #161b22;
+            color: #8b949e;
+            font-weight: 600;
+        }
+        .status-new { color: #58a6ff; }
+        .status-in_progress { color: #d2991d; }
+        .status-done { color: #3fb950; }
+        .no-orders {
+            color: #8b949e;
+            font-style: italic;
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Личный кабинет</h1>
+        <div class="info">
+            <p><strong>Логин:</strong> {{ request.user.username }}</p>
+            <p><strong>Email:</strong> {{ request.user.email|default:"Не указан" }}</p>
+            <p><strong>Название / ФИО:</strong> {{ customer.name }}</p>
+            <p><strong>Дата регистрации:</strong> {{ customer.created_at|date:"d.m.Y" }}</p>
+        </div>
+        <a href="{% url 'logout' %}" class="logout-btn">Выйти</a>
+        <a href="/" class="back-link">На главную</a>
+
+        <h2>Создать новый заказ</h2>
+        <form method="post" class="order-form">
+            {% csrf_token %}
+            <label for="description">Описание заказа</label>
+            <textarea name="description" id="description" placeholder="Опишите, что нужно напечатать..." required></textarea>
+            <button type="submit">Создать заказ</button>
+        </form>
+
+        <h2>Мои заказы</h2>
+        {% if orders %}
+        <table>
+            <thead>
+                <tr>
+                    <th>№</th>
+                    <th>Описание</th>
+                    <th>Статус</th>
+                    <th>Создан</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>{{ order.pk }}</td>
+                    <td>{{ order.description|truncatechars:80 }}</td>
+                    <td>
+                        {% if order.status == 'new' %}
+                            <span class="status-new">Новый</span>
+                        {% elif order.status == 'in_progress' %}
+                            <span class="status-in_progress">В работе</span>
+                        {% elif order.status == 'done' %}
+                            <span class="status-done">Готов</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ order.created_at|date:"d.m.Y H:i" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="no-orders">У вас пока нет заказов.</div>
+        {% endif %}
+    </div>
+</body>
+</html>

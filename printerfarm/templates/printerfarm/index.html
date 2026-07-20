@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synthesisform — Панель управления</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: #1a1a2e; color: #eee; min-height: 100vh; }
+        .header { background: #16213e; padding: 20px 30px; border-bottom: 2px solid #0f3460; }
+        .header h1 { font-size: 24px; color: #e94560; }
+        .header p { color: #aaa; margin-top: 4px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; padding: 30px; }
+        .card { background: #16213e; border-radius: 10px; padding: 20px; border: 1px solid #0f3460; }
+        .card h3 { font-size: 14px; text-transform: uppercase; color: #888; letter-spacing: 1px; margin-bottom: 8px; }
+        .card .value { font-size: 36px; font-weight: bold; color: #e94560; }
+        .card .sub { color: #aaa; margin-top: 4px; font-size: 13px; }
+        .section { padding: 0 30px 30px; }
+        .section h2 { font-size: 18px; margin-bottom: 12px; color: #e94560; }
+        table { width: 100%; border-collapse: collapse; background: #16213e; border-radius: 10px; overflow: hidden; }
+        th { background: #0f3460; padding: 10px 14px; text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #aaa; }
+        td { padding: 10px 14px; border-bottom: 1px solid #0f3460; font-size: 14px; }
+        .badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 12px; }
+        .badge-idle { background: #2d6a4f; color: #a7f3d0; }
+        .badge-printing { background: #1e40af; color: #bfdbfe; }
+        .badge-paused { background: #92400e; color: #fde68a; }
+        .badge-error { background: #991b1b; color: #fca5a5; }
+        .badge-maintenance { background: #4a1d96; color: #c4b5fd; }
+        .logout-btn { color: #e94560; text-decoration: none; font-size: 14px; padding: 6px 16px; border: 1px solid #e94560; border-radius: 6px; transition: all 0.2s; }
+        .logout-btn:hover { background: #e94560; color: #fff; }
+        .header-row { display: flex; justify-content: space-between; align-items: center; }
+        .muted { color: #777; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-row">
+            <div>
+                <h1>Synthesisform</h1>
+                <p>Панель управления производством на 3D-принтерах</p>
+            </div>
+            <form method="post" action="{% url 'logout' %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="logout-btn">Выйти</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <h3>Принтеров</h3>
+            <div class="value">{{ printers_count }}</div>
+            <div class="sub">Всего в системе</div>
+        </div>
+        <div class="card">
+            <h3>Активных заданий</h3>
+            <div class="value">{{ active_jobs }}</div>
+            <div class="sub">В очереди и в печати</div>
+        </div>
+        <div class="card">
+            <h3>Завершено</h3>
+            <div class="value">{{ completed_jobs }}</div>
+            <div class="sub">Выполненных заданий</div>
+        </div>
+        <div class="card">
+            <h3>Материалов</h3>
+            <div class="value">{{ materials_count }}</div>
+            <div class="sub">Видов на складе</div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Принтеры</h2>
+        {% if printers %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Название</th>
+                    <th>Модель</th>
+                    <th>Статус</th>
+                    <th>Заправлен</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for printer in printers %}
+                <tr>
+                    <td>{{ printer.name }}</td>
+                    <td>{{ printer.model|default:"—" }}</td>
+                    <td>
+                        <span class="badge badge-{{ printer.status }}">
+                            {{ printer.get_status_display }}
+                        </span>
+                    </td>
+                    <td>{{ printer.loaded_material|default:"—" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="muted">Принтеры ещё не добавлены. <a href="/admin/" style="color:#e94560;">Добавить в админке</a></p>
+        {% endif %}
+    </div>
+</body>
+</html>

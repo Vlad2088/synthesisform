@@ -1,0 +1,209 @@
+/* Operators Base Styles — PrintFarm */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #1a1d23;
+  color: #c9d1d9;
+  min-height: 100vh;
+}
+
+.nav {
+  background: #21262d;
+  padding: 12px 24px;
+  border-bottom: 1px solid #30363d;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+.nav a {
+  color: #58a6ff;
+  text-decoration: none;
+  font-size: 14px;
+}
+.nav a:hover { text-decoration: underline; }
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+h1 { font-size: 24px; margin-bottom: 20px; color: #f0f6fc; }
+h2 {
+  font-size: 18px;
+  margin: 24px 0 12px;
+  color: #f0f6fc;
+  border-bottom: 1px solid #30363d;
+  padding-bottom: 8px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #21262d;
+  border-radius: 8px;
+  overflow: hidden;
+}
+th, td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #30363d;
+  font-size: 14px;
+}
+th {
+  background: #161b22;
+  color: #8b949e;
+  font-weight: 600;
+}
+tr:hover td { background: #292e36; }
+tr a { color: #58a6ff; text-decoration: none; }
+tr a:hover { text-decoration: underline; }
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 8px 20px;
+  border-radius: 6px;
+  border: 1px solid #30363d;
+  background: #21262d;
+  color: #c9d1d9;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color .15s, color .15s, background-color .15s;
+}
+.btn:hover { border-color: #58a6ff; color: #58a6ff; }
+.btn-primary { background: #1f6feb; border-color: #1f6feb; color: #fff; }
+.btn-primary:hover { background: #388bfd; border-color: #388bfd; color: #fff; }
+.btn-success { background: #238636; border-color: #238636; color: #fff; }
+.btn-success:hover { background: #2ea043; border-color: #2ea043; color: #fff; }
+
+/* Filters */
+.filters {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.filters a {
+  padding: 6px 16px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 14px;
+  border: 1px solid #30363d;
+  color: #c9d1d9;
+  background: #21262d;
+  transition: border-color .15s, color .15s, background-color .15s;
+}
+.filters a:hover,
+.filters a.active {
+  border-color: #58a6ff;
+  color: #58a6ff;
+}
+
+/* Status badges */
+.status {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+.status-new { background: #1f6feb33; color: #58a6ff; }
+.status-in_progress { background: #d2992233; color: #d29922; }
+.status-ready { background: #23863633; color: #3fb950; }
+.status-done { background: #23863633; color: #3fb950; }
+
+/* Forms */
+form input, form select, form textarea {
+  width: 100%;
+  padding: 8px 12px;
+  margin-bottom: 14px;
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  color: #c9d1d9;
+  font-size: 14px;
+}
+form input:focus,
+form select:focus,
+form textarea:focus {
+  outline: 2px solid #58a6ff;
+  outline-offset: 2px;
+  border-color: #58a6ff;
+}
+form input:focus:not(:focus-visible),
+form select:focus:not(:focus-visible),
+form textarea:focus:not(:focus-visible) {
+  outline: none;
+}
+form input:focus-visible,
+form select:focus-visible,
+form textarea:focus-visible {
+  outline: 2px solid #58a6ff;
+  outline-offset: 2px;
+}
+
+form label {
+  display: block;
+  margin-bottom: 4px;
+  color: #8b949e;
+  font-size: 13px;
+}
+
+/* Cards */
+.card {
+  background: #21262d;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+.card .row {
+  display: flex;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+.card .label {
+  color: #8b949e;
+  width: 180px;
+  flex-shrink: 0;
+}
+.card .value { color: #c9d1d9; }
+
+/* Indicators */
+.indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 6px;
+  flex-shrink: 0;
+}
+.indicator-online { background: #3fb950; box-shadow: 0 0 4px #3fb95088; }
+.indicator-offline { background: #f85149; box-shadow: 0 0 4px #f8514988; }
+.indicator-maintenance { background: #d29922; box-shadow: 0 0 4px #d2992288; }
+
+.material-tag {
+  display: inline-block;
+  padding: 2px 10px;
+  background: #1f6feb22;
+  color: #58a6ff;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 16px;
+  color: #58a6ff;
+  font-size: 14px;
+  text-decoration: none;
+}
+.back-link:hover { text-decoration: underline; }
+
+.no-data {
+  color: #8b949e;
+  font-size: 14px;
+  padding: 8px 0;
+}

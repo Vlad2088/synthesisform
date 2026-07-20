@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ru" style="color-scheme: dark;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль — PrintFarm</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: #1a1d23;
+            color: #e1e4e8;
+            padding: 40px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 24px;
+        }
+        .info {
+            background: #21262d;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+        .info p {
+            margin-bottom: 8px;
+        }
+        .info strong {
+            color: #8b949e;
+        }
+        .nav-links {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        .nav-links a {
+            color: #58a6ff;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .nav-links a:hover { text-decoration: underline; }
+        .logout-btn {
+            padding: 8px 16px;
+            background: #da3633;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+        .logout-btn:hover { background: #c62828; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Личный кабинет</h1>
+        <div class="info">
+            <p><strong>Логин:</strong> {{ request.user.username }}</p>
+            <p><strong>Email:</strong> {{ request.user.email|default:"Не указан" }}</p>
+            <p><strong>Телефон:</strong> {{ customer.phone|default:"Не указан" }}</p>
+            <p><strong>Название / ФИО:</strong> {{ customer.name }}</p>
+            <p><strong>Дата регистрации:</strong> {{ customer.created_at|date:"d.m.Y" }}</p>
+        </div>
+        <div class="nav-links">
+            <a href="{% url 'orders' %}">Мои заказы</a>
+            <a href="{% url 'profile_edit' %}">Редактировать</a>
+            <a href="{% url 'logout' %}" class="logout-btn">Выйти</a>
+        </div>
+    </div>
+</body>
+</html>
