@@ -1,0 +1,569 @@
+/* PrintFarm Admin — Dark Theme (GitHub-style) */
+
+:root {
+  --bg-primary: #1a1d23;
+  --bg-secondary: #21262d;
+  --bg-tertiary: #161b22;
+  --border: #30363d;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --primary: #1f6feb;
+  --primary-hover: #388bfd;
+  --success: #238636;
+  --success-hover: #2ea043;
+  --danger: #da3633;
+  --warning: #d29922;
+  --text-primary: #c9d1d9;
+  --text-secondary: #8b949e;
+  --text-heading: #f0f6fc;
+  --link: #58a6ff;
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Base */
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-family);
+}
+
+body.login {
+  background: var(--bg-primary);
+}
+
+/* Header */
+#header {
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  color: var(--text-heading);
+  height: 48px;
+  padding: 0 20px;
+}
+
+#header a:link,
+#header a:visited {
+  color: var(--link);
+}
+
+#branding h1 {
+  color: var(--text-heading);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+#user-tools {
+  font-size: 13px;
+}
+
+#user-tools a {
+  border-bottom: none;
+}
+
+#user-tools a:hover {
+  color: var(--accent-hover);
+}
+
+/* Breadcrumbs */
+#breadcrumbs,
+div.breadcrumbs {
+  background: var(--bg-tertiary);
+  border-bottom: 1px solid var(--border);
+  color: var(--text-secondary);
+  padding: 8px 20px;
+  font-size: 13px;
+}
+
+#breadcrumbs a,
+div.breadcrumbs a {
+  color: var(--link);
+}
+
+#breadcrumbs a:hover,
+div.breadcrumbs a:hover {
+  color: var(--accent-hover);
+}
+
+/* Content */
+#content {
+  padding: 20px;
+}
+
+.module {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.module h2,
+.module caption {
+  background: var(--bg-tertiary);
+  color: var(--text-heading);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.module table {
+  width: 100%;
+}
+
+.module table th {
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.module table td {
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+
+.module table tr:last-child td {
+  border-bottom: none;
+}
+
+.module table tr:hover td {
+  background: #292e36;
+}
+
+.module table a {
+  color: var(--link);
+}
+
+.module table a:hover {
+  color: var(--accent-hover);
+}
+
+/* Forms */
+form .form-row {
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+form .form-row:last-child {
+  border-bottom: none;
+}
+
+form label {
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+form input[type="text"],
+form input[type="password"],
+form input[type="email"],
+form input[type="number"],
+form input[type="url"],
+form textarea,
+form select {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-primary);
+  padding: 8px 12px;
+  font-size: 14px;
+  font-family: var(--font-family);
+}
+
+form input[type="text"]:focus,
+form input[type="password"]:focus,
+form input[type="email"]:focus,
+form input[type="number"]:focus,
+form textarea:focus,
+form select:focus {
+  border-color: var(--accent);
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Buttons */
+.button,
+input[type="submit"],
+input[type="button"],
+.submit-row input {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-primary);
+  padding: 8px 20px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color .15s, color .15s, background-color .15s;
+}
+
+.button:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.button.default,
+input[type="submit"].default,
+.submit-row input.default {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+
+.button.default:hover,
+input[type="submit"].default:hover {
+  background: var(--primary-hover);
+  border-color: var(--primary-hover);
+}
+
+.button:active,
+input[type="submit"]:active {
+  transform: scale(0.98);
+}
+
+a.button {
+  text-decoration: none;
+}
+
+a.deletelink {
+  color: var(--danger) !important;
+}
+
+a.addlink {
+  color: var(--success) !important;
+  padding-left: 16px;
+}
+
+a.changelink {
+  color: var(--link) !important;
+}
+
+/* Messages */
+.messagelist {
+  padding: 0;
+  margin: 0 0 16px 0;
+}
+
+.messagelist li {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 16px;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+
+.messagelist li.success {
+  border-color: var(--success);
+  color: #3fb950;
+}
+
+.messagelist li.warning {
+  border-color: var(--warning);
+  color: var(--warning);
+}
+
+.messagelist li.error {
+  border-color: var(--danger);
+  color: #f85149;
+}
+
+/* Object tools */
+.object-tools {
+  margin-top: -32px;
+  margin-bottom: 16px;
+}
+
+.object-tools li {
+  margin-left: 8px;
+}
+
+.object-tools a {
+  background: var(--bg-secondary) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 6px !important;
+  color: var(--text-primary) !important;
+  padding: 6px 16px !important;
+  font-size: 13px !important;
+  transition: border-color .15s, color .15s;
+}
+
+.object-tools a:hover {
+  border-color: var(--accent) !important;
+  color: var(--accent) !important;
+}
+
+.object-tools a.addlink {
+  background: var(--primary) !important;
+  border-color: var(--primary) !important;
+  color: #fff !important;
+}
+
+.object-tools a.addlink:hover {
+  background: var(--primary-hover) !important;
+  border-color: var(--primary-hover) !important;
+}
+
+.object-tools a.viewsitelink {
+  color: var(--link) !important;
+}
+
+/* Paginator */
+.paginator {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 16px;
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.paginator a {
+  color: var(--link);
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.paginator a:hover {
+  background: var(--bg-tertiary);
+}
+
+.paginator span.this-page {
+  color: var(--text-heading);
+  font-weight: 600;
+  padding: 4px 8px;
+}
+
+/* Changelist filters */
+#changelist-filter {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+#changelist-filter h2 {
+  background: var(--bg-tertiary);
+  color: var(--text-heading);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+#changelist-filter h3 {
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 8px 16px 4px;
+  margin: 0;
+}
+
+#changelist-filter ul {
+  padding: 0 16px 8px;
+  margin: 0;
+}
+
+#changelist-filter li {
+  font-size: 13px;
+  padding: 2px 0;
+}
+
+#changelist-filter a {
+  color: var(--text-secondary);
+}
+
+#changelist-filter a:hover,
+#changelist-filter li.selected a {
+  color: var(--accent);
+}
+
+/* Actions */
+.actions {
+  padding: 10px 16px;
+  background: var(--bg-tertiary);
+  border-bottom: 1px solid var(--border);
+}
+
+.actions select {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-primary);
+  padding: 6px 12px;
+  font-size: 13px;
+}
+
+/* Dashboard */
+.dashboard #content {
+  width: auto;
+  max-width: 1200px;
+}
+
+.dashboard .module table td {
+  font-size: 14px;
+}
+
+.dashboard .module table th {
+  font-size: 12px;
+}
+
+/* Login page */
+.login #header {
+  background: transparent;
+  border: none;
+}
+
+.login #container {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 32px;
+  max-width: 400px;
+  margin: 60px auto;
+}
+
+.login .form-row {
+  padding: 8px 0;
+  border: none;
+}
+
+.login .form-row label {
+  color: var(--text-secondary);
+}
+
+.login .submit-row {
+  padding: 16px 0 0;
+  border: none;
+}
+
+.login .submit-row input {
+  width: 100%;
+  padding: 10px 24px;
+  font-size: 14px;
+}
+
+/* Sidebar / nav-sidebar */
+#nav-sidebar {
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border);
+}
+
+#nav-sidebar .current-model {
+  background: var(--bg-tertiary);
+  color: var(--text-heading);
+}
+
+#nav-sidebar a {
+  color: var(--text-secondary);
+}
+
+#nav-sidebar a:hover {
+  color: var(--accent);
+}
+
+/* Related widget */
+.selector {
+  display: flex;
+  gap: 8px;
+}
+
+.selector select {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-primary);
+  padding: 6px;
+}
+
+.selector-available h2,
+.selector-chosen h2 {
+  background: var(--bg-tertiary) !important;
+  color: var(--text-secondary) !important;
+  font-size: 12px !important;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: 1px solid var(--border) !important;
+  border-radius: 6px 6px 0 0 !important;
+}
+
+/* Calendar / clock */
+.calendarbox,
+.clockbox {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.calendarbox caption {
+  background: var(--bg-tertiary);
+  color: var(--text-heading);
+}
+
+.calendarbox a {
+  color: var(--link);
+}
+
+/* Dark mode overrides for admin defaults */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --body-bg: var(--bg-primary);
+    --darkened-bg: var(--bg-secondary);
+    --selected-bg: var(--primary);
+    --selected-row: #1f6feb22;
+    --close-button-bg: var(--bg-secondary);
+    --close-button-hover-bg: var(--bg-tertiary);
+  }
+}
+
+tr.selected td {
+  background: #1f6feb22 !important;
+}
+
+/* Inline groups */
+.inline-group {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.inline-group h2 {
+  background: var(--bg-tertiary);
+  color: var(--text-heading);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.inline-group .tabular table {
+  width: 100%;
+}
+
+/* Help text */
+.help {
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+/* Errors */
+.errorlist {
+  color: #f85149;
+  font-size: 13px;
+}
+
+.errornote {
+  background: #da363322;
+  border: 1px solid var(--danger);
+  border-radius: 6px;
+  color: #f85149;
+  padding: 10px 16px;
+  font-size: 13px;
+}

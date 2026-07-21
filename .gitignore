@@ -12,5 +12,8 @@ wheels/
 #Database 
 db.sqlite3 
 
+# Collected static files (build artifact)
+staticfiles/
+
 # User-uploaded media 
 media/ 
